@@ -8,9 +8,7 @@ def message_to_the_world():
 top = tkinter.Tk()
 top.geometry("500x500")
 
-t = tkinter.Text(top)
-for i in range(100):
-	t.insert("insert", str(i)+" ")
+t = tkinter.Checkbutton(top,text="pokemon",justify='left')
 
-t.pack()
+t.place(x=0,y=0)
 top.mainloop()
