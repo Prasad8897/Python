@@ -1,14 +1,18 @@
-import tkinter
-import tkMessageBox
+from tkinter import *;
 
 def message_to_the_world():
-	tkinter.Button(top,text="hello world",command=message_to_the_world, pady="50px").pack()
-	tkinter.Tk().mainloop()
+	Button(top,text="hello world",command=message_to_the_world, pady="50px").pack()
+	Tk().mainloop()
 	
-top = tkinter.Tk()
+top = Tk()
 top.geometry("500x500")
 
-t = tkinter.Checkbutton(top,text="pokemon",justify='left')
+t = Checkbutton(top,text="pokemon",justify='left')
 
 t.place(x=0,y=0)
+t.place_forget()
+
+button = Button(top,text="pokemons",command=lambda:button.pack_forget())
+button.pack()
+
 top.mainloop()
