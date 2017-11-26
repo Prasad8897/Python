@@ -1,6 +1,15 @@
 import socket
 import struct
-import textwarp
+import textwrap
+
+def main():
+	conn = socket.socket(socket.AF_PACKET,socket.SOCK_RAW,socket.ntohs(3))
+
+	while True:
+		raw_data, addr = conn.recvfrom(65536)
+		dest_mac, src_mac, eth_proto, data = ethenet_frame(raw_data)
+		print ('\nEternat frame')
+		print ('Destination: {},Source: {},Protocol: {},'.format(dest_mac, src_mac, eth_proto))
 
 #unpack ethernat frame
 def ethenet_frame(data):
@@ -9,6 +18,10 @@ def ethenet_frame(data):
 
 #Return properly formatted mac address (ie AA:BB:CC:DD:EE:FF)
 def get_mac_addr(bytes_addr):
-	bytes_str = map('{:02x}'.format, bytes_addr)
+	bytes_str = map("{:02x}".format, bytes_addr)
 	mac_addr = ':'.join(bytes_str).upper()
 	return mac_addr
+
+def t(num):
+	return ("%02x" % num)
+main()
