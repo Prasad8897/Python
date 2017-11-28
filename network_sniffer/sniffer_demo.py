@@ -2,12 +2,12 @@ import socket
 import struct
 import textwrap
 
-TAB_1 = '\t   '
-TAB_2 = '\t\t   '
-TAB_3 = '\t\t\t   '
-TAB_4 = '\t\t\t\t   '
+TAB_1 = '\t -  '
+TAB_2 = '\t\t -  '
+TAB_3 = '\t\t\t -  '
+TAB_4 = '\t\t\t\t -  '
 
-DATA_TAB_1 = '\t '
+DATA_TAB_1 = '\t .'
 DATA_TAB_2 = '\t\t '
 DATA_TAB_3 = '\t\t\t '
 DATA_TAB_4 = '\t\t\t\t '
@@ -25,15 +25,21 @@ def main():
 		if eth_proto == 8:
 			version, header_length, ttl, proto, src, target, data = ipv4_packet(data)
 			print (TAB_1 + 'IPv4 Packets')
-			print (TAB_2 + 'Version: {}, Header Length: {}, TTL: {},'format(version, header_length, ttl))
+			print (TAB_2 + 'Version: {}, Header Length: {}, TTL: {},'.format(version, header_length, ttl))
 			print (TAB_2 + 'Protocaol: {}, Source: {}, Target: {}'.format(proto,src,target))
 
 			if proto == 1:
 				icmp_type, code, checksum, data[4:] = icmp_packets(data)
 				print (TAB_1 + 'ICMP Packet')
-				print (TAB_2 + 'Type: {}, Code: {}, Checksum: {},'format(icmp_type, code, checksum))
+				print (TAB_2 + 'Type: {}, Code: {}, Checksum: {},'.format(icmp_type, code, checksum))
 				print (TAB_2 + 'Data:')
 				print (format_multi_line(DATA_TAB_3,data))
+
+			if proto == 6:
+				(src_port, dest_port, sequence, acknowledgement, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin, data) = tcp_segement(data)
+				print (TAB_1 + "TCP segment:")
+				print (TAB_2 + "Source Port: {}, Destination Port: {}".format(src_port,dest_port))
+				print (TAB_2 + "Sequence: {}, Acknowledgement: {}".format(sequence,acknowledgement))
 
 #unpack ethernat frame
 def ethenet_frame(data):
@@ -56,7 +62,7 @@ def ipv4_packet(data):
 
 # Returns properly formatted IPv4 address
 def ipv4(addr):
-	return '.'.join(map('',addr))
+	return '.'.join(map(str,addr))
 
 #Unpack ICMP packets
 def icmp_packets(data):
